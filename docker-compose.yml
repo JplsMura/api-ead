@@ -1,0 +1,78 @@
+version: "3.7"
+services:
+    # image project
+    app-api-ead:
+        build: 
+            args: 
+                user: jpls
+                uid: 1000
+            context: ./
+            dockerfile: Dockerfile
+        container_name: app-api-ead
+        image: laravel-app
+        restart: unless-stopped
+        working_dir: /var/www/
+        volumes:
+            - ./:/var/www
+        depends_on: 
+            - redis-api-ead
+            - queue-api-ead
+        networks: 
+            - laravel-api-ead
+    
+    # nginx
+    nginx-api-ead:
+        image: nginx:alpine
+        container_name: nginx-api-ead
+        restart: unless-stopped
+        ports: 
+            - 8180:80
+        volumes: 
+            - ./:/var/www
+            - ./docker/nginx/:/etc/nginx/conf.d/
+        networks: 
+            - laravel-api-ead
+
+    # db mysql
+    mysql-api-ead:
+        image: mysql:5.7.22
+        restart: unless-stopped
+        environment: 
+            MYSQL_DATABASE: ${DB_DATABASE}
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+            MYSQL_PASSWORD: ${DB_PASSWORD}
+            MYSQL_USER: ${DB_USERNAME}
+        volumes: 
+            - ./.docker/mysql/dbdata:/var/lib/mysql
+        ports: 
+            - 3389:3306
+        networks: 
+            - laravel-api-ead
+
+    # queue
+    queue-api-ead:
+        build: 
+            args: 
+                user: carlos
+                uid: 1000
+            context: ./
+            dockerfile: Dockerfile
+        container_name: queue-api-ead
+        restart: unless-stopped
+        command: "php artisan queue:work"
+        volumes: 
+            - ./:/var/www
+        depends_on: 
+            - redis-api-ead
+        networks: 
+            - laravel-api-ead
+
+    # redis
+    redis-api-ead:
+        image: redis:latest
+        networks: 
+            - laravel-api-ead
+
+networks: 
+    laravel-api-ead:
+        driver: bridge
