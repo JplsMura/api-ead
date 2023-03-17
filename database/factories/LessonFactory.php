@@ -28,7 +28,7 @@ class LessonFactory extends Factory
         return [
             'module_id' => Module::factory(),
             'name' => $name,
-            'url' => Str::slug($name),
+            'url' => $this->faker->url(),
             'video' => Str::random(),
         ];
     }
