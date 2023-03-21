@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class SupportResource extends JsonResource
@@ -15,9 +16,14 @@ class SupportResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
             'status' => $this->status,
-            'status_label' => $this->statusOptions[$this->status],
-            'description' => $this->description
+            'status_label' => $this->statusOptions[$this->status] ?? 'Not Found Status',
+            'description' => $this->description,
+            'user' => new UserResource($this->user),
+            'lesson' => new LessonResource($this->lesson),
+            'replies' => LessonResource::collection($this->replies),
+            'dt_updated' => Carbon::make($this->updated_at)->format('Y-m-d H:i:s'),
         ];
     }
 }

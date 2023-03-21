@@ -13,6 +13,7 @@ class Module extends Model
     use HasFactory, UuidTrait;
 
     public $incrementing = false;
+    
     protected $keyType = 'uuid';
 
     protected $table = 'modules';

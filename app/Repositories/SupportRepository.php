@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Models\ReplySupport;
 use App\Models\Support;
 use App\Models\User;
 
@@ -31,7 +32,40 @@ class SupportRepository
                             $query->where('description', 'LIKE', "%{$filters}%");
                         }
                     })
+                    ->orderBy('updated_at')
                     ->get();
+    }
+
+    public function createNewSupport(array $data): Support
+    {
+        $support = $this->getUserAuth()
+                ->supports()
+                ->create([
+                    'lesson_id' => $data['lesson'],
+                    'description' => $data['description'],
+                    'status' => $data['status'],
+                ]);
+
+        return $support;
+    }
+
+    public function createReplyToSupportId(string $supportId, array $data): ReplySupport
+    {
+        $user = $this->getUserAuth();
+
+        $reply = $this->getSupport($supportId)
+                ->replies()
+                ->create([
+                    'user_id' => $user->id,
+                    'description' => $data['description'],
+                ]);
+
+        return $reply;
+    }
+
+    private function getSupport(string $id)
+    {
+        return $this->entity->findOrFail($id);
     }
 
     private function getUserAuth(): User
