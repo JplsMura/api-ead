@@ -2,12 +2,13 @@
 
 namespace App\Repositories;
 
-use App\Models\ReplySupport;
 use App\Models\Support;
-use App\Models\User;
+use App\Repositories\Traits\RepositoryTrait;
 
 class SupportRepository
 {
+    use RepositoryTrait;
+
     private $entity;
 
     public function __construct(Support $model)
@@ -49,28 +50,13 @@ class SupportRepository
         return $support;
     }
 
-    public function createReplyToSupportId(string $supportId, array $data): ReplySupport
-    {
-        $user = $this->getUserAuth();
-
-        $reply = $this->getSupport($supportId)
-                ->replies()
-                ->create([
-                    'user_id' => $user->id,
-                    'description' => $data['description'],
-                ]);
-
-        return $reply;
-    }
-
     private function getSupport(string $id)
     {
         return $this->entity->findOrFail($id);
     }
 
-    private function getUserAuth(): User
+    public function getSupportId(string $id)
     {
-        // return auth()->user();
-        return User::first();
+        return $this->entity->findOrFail($id);
     }
 }
