@@ -38,4 +38,11 @@ class SupportController extends Controller
 
         return new SupportResource($support);
     }
+
+    public function mySupports(Request $request)
+    {
+        $mySupports = $this->repository->getMySupports($request->all());
+
+        return SupportResource::collection($mySupports);
+    }
 }
