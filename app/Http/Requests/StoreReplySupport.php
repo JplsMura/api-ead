@@ -24,7 +24,7 @@ class StoreReplySupport extends FormRequest
     public function rules()
     {
         return [
-            'support_id' => ['required', 'exists:reply_support,support_id'],
+            'support_id' => ['required', 'exists:supports,id'],
             'description' => ['required', 'min:3', 'max:10000']
         ];
     }
