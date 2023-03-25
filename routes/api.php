@@ -16,23 +16,26 @@ use Illuminate\Support\Facades\Route;
 // Auth Sanctum
 Route::post('/auth', [AuthController::class, 'auth']);
 
-// Courses
-Route::get('/courses', [CourseController::class, 'index']);
-Route::get('/courses/{id}', [CourseController::class, 'show']);
+Route::middleware(['auth:sanctum'])->group(function () {
+    // Courses
+    Route::get('/courses', [CourseController::class, 'index']);
+    Route::get('/courses/{id}', [CourseController::class, 'show']);
 
-// Modules
-Route::get('/courses/{id}/modules', [ModuleController::class, 'index']);
+    // Modules
+    Route::get('/courses/{id}/modules', [ModuleController::class, 'index']);
 
-// Lesson
-Route::get('/modules/{id}/lessons', [LessonController::class, 'index']);
-Route::get('/lesson/{id}', [LessonController::class, 'show']);
+    // Lesson
+    Route::get('/modules/{id}/lessons', [LessonController::class, 'index']);
+    Route::get('/lesson/{id}', [LessonController::class, 'show']);
 
-// Support
-Route::get('/my-supports', [SupportController::class, 'mySupports']);
-Route::get('/supports', [SupportController::class, 'index']);
-Route::get('/support/{id}', [SupportController::class, 'getSupport']);
-Route::post('/supports', [SupportController::class, 'store']);
-Route::post('/replies', [ReplySupportController::class, 'createReply']);
+    // Support
+    Route::get('/my-supports', [SupportController::class, 'mySupports']);
+    Route::get('/supports', [SupportController::class, 'index']);
+    Route::get('/support/{id}', [SupportController::class, 'getSupport']);
+    Route::post('/supports', [SupportController::class, 'store']);
+    Route::post('/replies', [ReplySupportController::class, 'createReply']);
+});
+
 
 Route::get('/', function () {
     return response()->json([
