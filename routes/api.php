@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\Api\Auth\{
+    AuthController
+};
+
 use App\Http\Controllers\Api\Course\{
     CourseController,
     LessonController,
@@ -8,6 +12,9 @@ use App\Http\Controllers\Api\Course\{
     SupportController
 };
 use Illuminate\Support\Facades\Route;
+
+// Auth Sanctum
+Route::post('/auth', [AuthController::class, 'auth']);
 
 // Courses
 Route::get('/courses', [CourseController::class, 'index']);
