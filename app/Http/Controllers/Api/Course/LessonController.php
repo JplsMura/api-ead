@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Course;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreView;
 use App\Http\Resources\LessonResource;
 use App\Repositories\LessonRepository;
 
@@ -23,7 +24,15 @@ class LessonController extends Controller
         return LessonResource::collection($lessons);
     }
 
-    public function show($lessonId) {
+    public function show($lessonId)
+    {
         return new LessonResource($this->repository->getLessonID($lessonId));
+    }
+
+    public function viewed(StoreView $request)
+    {
+        $this->repository->markLessonViewed($request->lesson);
+
+        return response()->json(['success' => true]);
     }
 }

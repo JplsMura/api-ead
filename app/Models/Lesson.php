@@ -13,7 +13,7 @@ class Lesson extends Model
     use HasFactory, UuidTrait;
 
     public $incrementing = false;
-    
+
     protected $keyType = 'uuid';
 
     protected $table = 'lessons';
@@ -29,5 +29,15 @@ class Lesson extends Model
     public function supports(): HasMany
     {
         return $this->hasMany(Support::class);
+    }
+
+    public function views(): HasMany
+    {
+        return $this->hasMany(Views::class)
+                    ->where(function ($query) {
+                        if (auth()->check()) {
+                            return $query->where('user_id', auth()->user()->id);
+                        }
+                    });
     }
 }

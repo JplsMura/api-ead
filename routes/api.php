@@ -37,6 +37,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/modules/{id}/lessons', [LessonController::class, 'index']);
     Route::get('/lesson/{id}', [LessonController::class, 'show']);
 
+    // Views Lesson
+    Route::get('/lessons/viewed', [LessonController::class, 'viewed']);
+
     // Support
     Route::get('/my-supports', [SupportController::class, 'mySupports']);
     Route::get('/supports', [SupportController::class, 'index']);
@@ -48,6 +51,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 Route::get('/', function () {
     return response()->json([
-        'sucess' => true,
+        'success' => true,
     ]);
 });
