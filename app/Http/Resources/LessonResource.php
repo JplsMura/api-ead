@@ -21,7 +21,7 @@ class LessonResource extends JsonResource
             'url' => Str::slug($this->name),
             'description' => $this->description,
             'video' => $this->video,
-            'views' => $this->views,
+            'views' => ViewResource::collection($this->whenLoaded('views')),
         ];
     }
 }
