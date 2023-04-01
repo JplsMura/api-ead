@@ -4,8 +4,6 @@ namespace Tests\Feature\Api\Support;
 
 use App\Models\Lesson;
 use App\Models\Support;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\Feature\Api\UtilsTrait;
 use Tests\TestCase;
 

@@ -2,11 +2,7 @@
 
 namespace Tests\Feature\Api\View;
 
-use App\Models\Course;
 use App\Models\Lesson;
-use App\Models\Module;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\Feature\Api\UtilsTrait;
 use Tests\TestCase;
 
