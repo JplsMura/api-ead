@@ -17,6 +17,7 @@ class ModuleResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => ucwords(strtolower($this->name)),
+            'lesson' => LessonResource::collection($this->whenLoaded('lessons')),
         ];
     }
 }

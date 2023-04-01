@@ -13,7 +13,7 @@ class Module extends Model
     use HasFactory, UuidTrait;
 
     public $incrementing = false;
-    
+
     protected $keyType = 'uuid';
 
     protected $table = 'modules';
@@ -26,7 +26,7 @@ class Module extends Model
         return $this->belongsTo(Course::class);
     }
 
-    public function lesson(): HasMany
+    public function lessons(): HasMany
     {
         return $this->hasMany(Lesson::class);
     }
