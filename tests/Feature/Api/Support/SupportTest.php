@@ -9,14 +9,13 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\Feature\Api\UtilsTrait;
 use Tests\TestCase;
 
-class SuportTest extends TestCase
+class SupportTest extends TestCase
 {
     use UtilsTrait;
 
     public function test_get_my_supports_unauthenticated()
     {
         $response = $this->getJson('/my-supports');
-
         $response->assertStatus(401);
     }
 
@@ -25,12 +24,10 @@ class SuportTest extends TestCase
         $user = $this->createUser();
         $token = $user->createToken('test')->plainTextToken;
 
-        /** Suportes criado para o usuário autênticado */
         Support::factory()->count(50)->create([
             'user_id' => $user->id,
         ]);
 
-        /** Suportes criado de forma aleatória */
         Support::factory()->count(50)->create();
 
         $response = $this->getJson('/my-supports', [
@@ -43,7 +40,6 @@ class SuportTest extends TestCase
     public function test_get_supports_unauthenticated()
     {
         $response = $this->getJson('/supports');
-
         $response->assertStatus(401);
     }
 
@@ -53,7 +49,6 @@ class SuportTest extends TestCase
 
         Support::factory()->count(50)->create();
 
-        /** Criando suporte com aulas em especifico */
         Support::factory()->count(10)->create([
             'lesson_id' => $lesson->id,
         ]);
@@ -67,7 +62,6 @@ class SuportTest extends TestCase
 
     public function test_get_supports_filter_status()
     {
-        /** Criando suporte com aulas em especifico */
         Support::factory()->count(10)->create([
             'status' => 'P',
         ]);
@@ -81,7 +75,6 @@ class SuportTest extends TestCase
 
     public function test_get_supports_filter_description()
     {
-        /** Criando suporte com aulas em especifico */
         Support::factory()->count(10)->create([
             'description' => 'test',
         ]);
@@ -91,5 +84,26 @@ class SuportTest extends TestCase
         $response = $this->json('GET', '/supports', $payloads, $this->defaultHeaders());
 
         $response->assertStatus(200)->assertJsonCount(10, 'data');
+    }
+
+    public function test_create_support_unauthenticated()
+    {
+        $response = $this->postJson('/supports');
+        $response->assertStatus(401);
+    }
+
+    public function test_create_support_error_validations()
+    {
+        $lesson = Lesson::factory()->create();
+
+        $payloads = [
+            'lesson' => $lesson->id,
+            'status' => 'P',
+            'description' => 'Test description',
+        ];
+
+        $response = $this->postJson('/supports', $payloads, $this->defaultHeaders());
+
+        $response->assertStatus(201);
     }
 }
