@@ -17,7 +17,7 @@ class ReplySupport extends Model
 
     protected $table = 'reply_support';
 
-    protected $fillable = ['user_id', 'support_id', 'description'];
+    protected $fillable = ['user_id', 'admin_id', 'support_id', 'description'];
 
     protected $touch = ['support'];
 
