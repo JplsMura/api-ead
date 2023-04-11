@@ -18,15 +18,13 @@ class ReplySupportRepository
 
     public function createReplyToSupport(array $data): ReplySupport
     {
-        $admin = $this->getAdminAuth();
         $user = $this->getUserAuth();
 
         $reply = $this->entity
                 ->create([
-                    'user_id' => $user->id,
-                    'admin_id' => $admin->id,
                     'support_id' => $data['support_id'],
                     'description' => $data['description'],
+                    'user_id' => $user->id,
                 ]);
 
         return $reply;
