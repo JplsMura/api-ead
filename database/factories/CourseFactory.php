@@ -24,6 +24,7 @@ class CourseFactory extends Factory
         return [
             'name' => $this->faker->unique()->name(),
             'description' => $this->faker->sentence(20),
+            'available' => $this->faker->boolean(true),
         ];
     }
 }

@@ -20,6 +20,7 @@ class CourseResource extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'image' => $this->image ? Storage::url($this->image) : '',
+            'available' => $this->available,
             'modules' => ModuleResource::collection($this->whenLoaded('modules')),
         ];
     }

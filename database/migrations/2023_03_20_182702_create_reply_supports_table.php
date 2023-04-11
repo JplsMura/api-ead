@@ -15,10 +15,23 @@ class CreateReplySupportsTable extends Migration
     {
         Schema::create('reply_support', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->uuid('user_id')->nullable(false);
-            $table->uuid('support_id')->nullable(false);
+            $table->uuid('user_id')->index();
+            $table->uuid('admin_id')->index();
+            $table->uuid('support_id')->nullable(false)->index();
             $table->text('description');
             $table->timestamps();
+
+            $table->foreign('user_id')
+                    ->references('id')
+                    ->on('users');
+
+            $table->foreign('admin_id')
+                ->references('id')
+                ->on('admins');
+
+            $table->foreign('support_id')
+                    ->references('id')
+                    ->on('supports');
         });
     }
 

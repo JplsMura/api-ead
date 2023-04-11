@@ -28,12 +28,18 @@ class ReplySupportTest extends TestCase
     {
         $support = Support::factory()->create();
 
+        $user = $this->createUser();
+        $admin = $this->createAdmin();
+        // dd($admin->id);
+
         $payloads = [
+            'user' => $user->id,
+            'admin' => $admin->id,
             'support_id' => $support->id,
             'description' => 'Test description',
         ];
 
-        $response = $this->postJson('/replies', $payloads, $this->defaultHeaders());
+        $response = $this->postJson('/replies', $payloads, $this->defaultHeadersAdmin());
 
         $response->assertStatus(201);
     }
