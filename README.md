@@ -61,3 +61,11 @@ php artisan key:generate
 
 Acesse o projeto
 [http://localhost:8180](http://localhost:8180)
+
+
+Erros que podem acontecer ao tentar cadastrar uma nova conexão no MYSQL WORKBEANCH
+```sh
+Acesse ao Ubuntu Software, pesquise pelo Workbench, selecione Permissões e marque as opções que tenham Read.
+O outro erro é de SSL "ssl connection error" e resolve:
+Acesse a aba Advanced/Avançada (dentro das conexões), no campo Others/Outros coloque: useSSL=0
+```
